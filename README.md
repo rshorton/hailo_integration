@@ -1,5 +1,12 @@
 # hailo_integration
 
+## Overview
+
+This project contains a few files used to setup Hailo AI Tappas so it can be used for the Elsabot project with the OAK-D camera serving as the Camera source.  Tappas is an example framework provided by Hailo AI for demonstrating various example uses for the Hailo 8 TPU.  Tappas is provided as a Docker image.  A Hailo 8 TPU on an m.2 pcie card was used.
+
+Currently, the facial recognition Tappas example pipeline is used to implement facial recognition using various AI models run on a Hailo 8 TPU.  Camera frames from the OAK-D camera received by the Vision node of the robot_head ROS package are published to the topic /color/image_to_hailo.  The ros-gst-bridge package is used to implement a node that provides a gstreamer source element for receiving those frames and passing them down the pipeline created by the face_recognition.sh script.
+
+The detection/recognition output meta data is exported from the pipeline using a ZMQ publisher element provided by Hailo.  That data is received by the Vision node of the robot_head package and integrated with the detection info obtained from the OAK-D (which perform basic person detection and tracking).  The additional facial recognization data is then available to upper level processing (like the elsabot_bt node using behavior trees).
 
 ## Build Docker
 
