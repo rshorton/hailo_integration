@@ -4,13 +4,16 @@ import time
 
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
-socket.connect('tcp://127.0.0.1:5558')
+socket.connect('tcp://127.0.0.1:5559')
 socket.setsockopt(zmq.SUBSCRIBE, b'')
 
-for request in range(10000):
+while True:
     try:
         msg = socket.recv(flags=zmq.NOBLOCK)
         msg = msg.decode()
+        #print('==================')                                        
+        #print('==================')                                        
+        #print('==================')                                        
         #print("%s" % (msg))
         meta = json.loads(msg)
         if 'HailoROI' in meta:
@@ -36,6 +39,9 @@ for request in range(10000):
                                     if key == 'HailoClassification':
                                         if detobj[key]['classification_type'] == 'recognition_result':
                                             print('face recognized as: %s' % detobj[key]['label'])
+                                    elif key == 'HailoUniqueID':
+                                        print(detobj)
+
     except zmq.Again as e:
         pass
     time.sleep(0.010)                                            
