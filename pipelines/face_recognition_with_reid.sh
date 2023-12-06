@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# This is a combination of the face recognition pipeline with parts of the person RE ID pipeline example.
+# The --ros option causes the input to be from the rosimagesrc source element provided by the ros-gst-bridge package.
+
 function init_variables() {
     print_help_if_needed $@
     script_dir=$(dirname $(realpath "$0"))
@@ -33,24 +36,13 @@ function init_variables() {
 
     # Re-Id
     readonly POSTPROCESS_SO_PERSON_FACE="$POSTPROCESS_DIR/libyolo_post.so"
-    #readonly POSTPROCESS_SO_PERSON_FACE="$POSTPROCESS_DIR/libyolo_hailortpp_post.so"
-
     readonly CROPPER_SO_REID="$POSTPROCESS_DIR/cropping_algorithms/libre_id.so"
     readonly RE_ID_POST_SO="$POSTPROCESS_DIR/libre_id.so"
-
     readonly HEF_PATH_PERSON_FACE="$RESOURCES_DIR/yolov5s_personface_reid.hef"
-    #readonly HEF_PATH_PERSON_FACE="$RESOURCES_DIR/yolov5m_wo_spp_60p.hef"
-
     readonly REID_HEF_PATH="$RESOURCES_DIR/repvgg_a0_person_reid_2048.hef"
-
     readonly FUNCTION_NAME_PERSON_FACE_FILTER="yolov5_personface_letterbox"
-    #readonly FUNCTION_NAME_PERSON_FACE_FILTER="yolov5"
-
     readonly DEFAULT_JSON_CONFIG_PATH_PERSONFACE="$RESOURCES_DIR/configs/yolov5_personface.json"
-    #readonly DEFAULT_JSON_CONFIG_PATH_PERSONFACE="$RESOURCES_DIR/configs/yolov5.json"
-
     readonly WHOLE_BUFFER_CROP_SO="$POSTPROCESS_DIR/cropping_algorithms/libwhole_buffer.so"
-
     readonly RE_ID_OVERLAY="$TAPPAS_WORKSPACE/apps/h8/gstreamer/libs/apps/re_id/libre_id_overlay.so"
 
     video_format="RGB"
